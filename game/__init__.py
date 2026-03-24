@@ -16,6 +16,12 @@ from .game_engine import (
     TextAdventureGame
 )
 
+from .localization import (
+    LocalizationManager,
+    _,
+    LANGUAGE
+)
+
 __version__ = "0.1.0"
 __all__ = [
     "StoryGenerator",
@@ -25,5 +31,8 @@ __all__ = [
     "create_generator",
     "GameState",
     "ContextManager",
-    "TextAdventureGame"
+    "TextAdventureGame",
+    "LocalizationManager",
+    "_",
+    "LANGUAGE"
 ]

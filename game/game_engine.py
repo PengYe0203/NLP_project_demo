@@ -8,6 +8,7 @@ import os
 from datetime import datetime
 from typing import Optional, Dict, List, Any
 from pathlib import Path
+from .localization import LocalizationManager as L
 
 
 class GameState:
@@ -130,13 +131,7 @@ class TextAdventureGame:
     
     def initialize_story(self) -> str:
         """Generate opening story"""
-        opening_prompt = """生成一个文字冒险游戏的开场。
-        
-要求：
-- 设定一个有趣的世界背景
-- 描述初始位置
-- 给出前几个可能的操作建议
-- 100-150字左右"""
+        opening_prompt = L.get("system_prompt_opening")
         
         try:
             initial_story = self.generator.generate(
@@ -148,7 +143,7 @@ class TextAdventureGame:
             self.game_log.append(("init", initial_story))
             return initial_story
         except Exception as e:
-            return f"故事生成失败: {e}"
+            return f"{L.get('generate_failed')}: {e}"
     
     def process_action(self, action: str) -> str:
         """Process player action and generate next story segment
@@ -178,7 +173,7 @@ class TextAdventureGame:
             
             return story
         except Exception as e:
-            error_msg = f"生成失败: {e}"
+            error_msg = f"{L.get('error_prefix')}: {e}"
             self.game_log.append(("error", error_msg))
             return error_msg
     
@@ -249,7 +244,7 @@ class TextAdventureGame:
             
             return True
         except Exception as e:
-            print(f"加载失败: {e}")
+            print(f"{L.get('load_failed')}: {e}")
             return False
     
     def list_saves(self) -> List[str]:

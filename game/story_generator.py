@@ -5,6 +5,7 @@ Support for multiple AI backends (OpenAI, Claude, Local Models, etc.)
 
 import os
 from typing import Optional, Dict, List
+from .localization import LocalizationManager as L
 
 
 class StoryGenerator:
@@ -16,20 +17,7 @@ class StoryGenerator:
     
     def _create_system_prompt(self) -> str:
         """Create system prompt for story generation"""
-        return """你是一个文字冒险游戏的故事叙述者。
-
-你的responsibilities：
-1. 根据玩家的行动生成沉浸式的故事段落
-2. 严格遵循已建立的世界观和角色设定
-3. 记住之前发生过的所有事件和玩家做过的选择
-4. 保持地点、NPC、物品的名称和特性一致
-5. 让玩家的操作实际影响故事发展
-6. 每段故事100-200字，保留悬念
-
-故事风格：
-- 使用第二人称"你"
-- 描述性但不过分冗长
-- 在故事结尾给出可能的后续行动提示"""
+        return L.get("system_prompt_story")
     
     def build_prompt(self, story_context: str, player_action: Optional[str] = None, 
                     game_state: Optional[Dict] = None) -> str:
